@@ -62,6 +62,9 @@ public class ReformatterActivity extends Activity
 
     private String extractPodcasts()
     	{
+//    	String url = "http://acraig.za.net/podcasts.html";
+//    	String link = String.format("<a href=\"%s\">Podcasts</a>", url);
+//    	String podcasts = link + " listened to this week: ";
     	String podcasts = "<em>Podcasts listened to this week:</em> ";
     	
     	Pattern p = Pattern.compile("\n(\\S+).mp3\n");
@@ -80,7 +83,7 @@ public class ReformatterActivity extends Activity
     	{
     	String date = "- [0-9]{4}/[0-9]{2}/[0-9]{2} ";
     	String day = ".+\\S";
-    	String time = " [0-9]{2}:[0-9]{2}:[0-9]{2}";
+    	String time = " [0-9]{2}:[0-9]{2}";
     	String title = "\nPodcasts listened to this week:\n";
     	String files = "(.+.mp3\n)+";
     	String regex = "\n" + date + day + time + title + files;
@@ -91,7 +94,7 @@ public class ReformatterActivity extends Activity
     private void reformatEntries()
     	{
     	String date = "- [0-9]{4}/[0-9]{2}/[0-9]{2} ";
-    	String time = " [0-9]{2}:[0-9]{2}:[0-9]{2}\n";
+    	String time = " [0-9]{2}:[0-9]{2}\n";
     	
     	String day0 = date + "Monday" + time;
     	String day1 = date + "Tuesday" + time;
@@ -119,6 +122,7 @@ public class ReformatterActivity extends Activity
     	ret = ret.replace("twit", "This Week in Tech ");
     	ret = ret.replace("zats", "ZA Tech Show ");
     	ret = ret.replace("LetsTalkGeek_E", "Let's Talk Geek ");
+    	ret = ret.replace("floss", "FLOSS Weekly ");
     	
     	Pattern p = Pattern.compile("([0-9]{2,3}[a-z]?)-[A-Z].+");
     	Matcher m = p.matcher(ret);
