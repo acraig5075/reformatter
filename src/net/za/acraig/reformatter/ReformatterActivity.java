@@ -1,5 +1,7 @@
 package net.za.acraig.reformatter;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,7 @@ public class ReformatterActivity extends Activity
 			if (extras != null)
 				{
 				_title = extras.getString("android.intent.extra.SUBJECT");
+				_title = titleFromDates(_title);
 				_diary = _desc;
 				_diary += extras.getString("android.intent.extra.TEXT");
 				}
@@ -67,7 +70,7 @@ public class ReformatterActivity extends Activity
 //    	String podcasts = link + " listened to this week: ";
     	String podcasts = "<em>Podcasts listened to this week:</em> ";
     	
-    	Pattern p = Pattern.compile("\n(\\S+).mp3\n");
+    	Pattern p = Pattern.compile("(\\S+).mp3\n");
     	Matcher m = p.matcher(_diary);
     	while (m.find())
     		{
@@ -131,4 +134,28 @@ public class ReformatterActivity extends Activity
     	
     	return ret;
     	}
-}
+    
+    private String titleFromDates(String dates)
+    	{
+ 		Calendar start = new GregorianCalendar(2011, 8, 15);
+		Calendar end = new GregorianCalendar();
+		
+		Pattern p = Pattern.compile("[0-9]{4}/[0-9]{2}/[0-9]{2}");
+    	Matcher m = p.matcher(dates);
+    	if (m.find())
+    		{
+    		String tokens[] = m.group().split("/");
+    		if (tokens.length >= 3)
+    			end.set(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
+    		}
+    	
+		int yearInterval = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
+		int startWeeks = start.get(Calendar.WEEK_OF_YEAR);
+		int endWeeks = end.get(Calendar.WEEK_OF_YEAR);
+		endWeeks += 52 * yearInterval;
+		int weekInterval = endWeeks - startWeeks + 1;
+		
+		String title = String.format("Week %d", weekInterval);
+		return title;
+		}
+    }
