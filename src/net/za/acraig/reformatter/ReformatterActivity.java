@@ -126,11 +126,22 @@ public class ReformatterActivity extends Activity
     	ret = ret.replace("zats", "ZA Tech Show ");
     	ret = ret.replace("LetsTalkGeek_E", "Let's Talk Geek ");
     	ret = ret.replace("floss", "FLOSS Weekly ");
+    	ret = ret.replace("hanselminutes_", "Hanselminutes ");
     	
     	Pattern p = Pattern.compile("([0-9]{2,3}[a-z]?)-[A-Z].+");
     	Matcher m = p.matcher(ret);
     	if (m.find())
     		ret = "This Developer's Life " + m.group(1);
+    	
+    	p = Pattern.compile("([0-9]{8,8})-stack-exchange-stack-exchange-podcast-([0-9]{2,2})");
+    	m = p.matcher(ret);
+    	if (m.find())
+    		ret = "Stack Exchange " + m.group(2);
+    	
+    	p = Pattern.compile("seradio-episode([0-9]{3})-.+");
+    	m = p.matcher(ret);
+    	if (m.find())
+    		ret = "Software Engineering Radio " + m.group(1);
     	
     	return ret;
     	}
