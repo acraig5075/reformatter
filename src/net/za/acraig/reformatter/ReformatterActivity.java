@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class ReformatterActivity extends Activity 
 {
 	private String _diary = "nothing to show";
-	private String _desc = "<em>Italics description...</em>\n";
+	private String _desc = "<em>Italics description...</em>\n\n";
 	private String _title = "";
 	
     /** Called when the activity is first created. */
@@ -31,9 +31,12 @@ public class ReformatterActivity extends Activity
 			Bundle extras = i.getExtras();
 			if (extras != null)
 				{
-				_title = extras.getString("android.intent.extra.SUBJECT");
-				_title = titleFromDates(_title);
-				_diary = _desc;
+				String title = extras.getString("android.intent.extra.SUBJECT");
+				_diary = title.replaceAll("MomentDiary: ", "The week of ");
+				_diary += "\n\n";
+				
+				_title = titleFromDates(title);
+				_diary += _desc;
 				_diary += extras.getString("android.intent.extra.TEXT");
 				}
 			}
@@ -65,11 +68,10 @@ public class ReformatterActivity extends Activity
 
     private String extractPodcasts()
     	{
-//    	String url = "http://acraig.za.net/podcasts.html";
-//    	String link = String.format("<a href=\"%s\">Podcasts</a>", url);
-//    	String podcasts = link + " listened to this week: ";
+    	String url = "http://acraig.za.net/podcasts.html";
+    	//String podcasts = String.format("<em><a href=\"%s\">Podcasts</a> listened to this week: </em>", url);
     	String podcasts = "<em>Podcasts listened to this week:</em> ";
-    	
+
     	Pattern p = Pattern.compile("(\\S+).mp3\n");
     	Matcher m = p.matcher(_diary);
     	while (m.find())
