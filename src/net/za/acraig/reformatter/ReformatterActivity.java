@@ -2,6 +2,7 @@ package net.za.acraig.reformatter;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,7 +71,7 @@ public class ReformatterActivity extends Activity
     	{
     	String url = "http://acraig.za.net/podcasts.html";
     	//String podcasts = String.format("<em><a href=\"%s\">Podcasts</a> listened to this week: </em>", url);
-    	String podcasts = "<em>Podcasts listened to this week:</em> ";
+    	String podcasts = url + "<em>Podcasts listened to this week:</em> ";
 
     	Pattern p = Pattern.compile("(\\S+).mp3\n");
     	Matcher m = p.matcher(_diary);
@@ -129,13 +130,20 @@ public class ReformatterActivity extends Activity
     	ret = ret.replace("LetsTalkGeek_E", "Let's Talk Geek ");
     	ret = ret.replace("floss", "FLOSS Weekly ");
     	ret = ret.replace("hanselminutes_", "Hanselminutes ");
+    	ret = ret.replace("WT_", "Wood Talk ");
+    	ret = ret.replace("inbeta-", "InBeta ");
     	
-    	Pattern p = Pattern.compile("([0-9]{2,3}[a-z]?)-[A-Z].+");
+    	Pattern p = Pattern.compile("([0-9]{2})-([A-Z][a-z]+)201([0-9]{1})");
     	Matcher m = p.matcher(ret);
+    	if (m.find())
+    		ret = "Pit Pass " + m.group(1);
+    	
+    	p = Pattern.compile("([0-9]{2,3}[a-z]?)-[A-Z].+");
+    	m = p.matcher(ret);
     	if (m.find())
     		ret = "This Developer's Life " + m.group(1);
     	
-    	p = Pattern.compile("([0-9]{8,8})-stack-exchange-stack-exchange-podcast-([0-9]{2,2})");
+    	p = Pattern.compile("([0-9]{8,9})-stack-exchange-stack-exchange-podcast-episode-([0-9]{2,2}).+");
     	m = p.matcher(ret);
     	if (m.find())
     		ret = "Stack Exchange " + m.group(2);
@@ -144,6 +152,11 @@ public class ReformatterActivity extends Activity
     	m = p.matcher(ret);
     	if (m.find())
     		ret = "Software Engineering Radio " + m.group(1);
+    	
+    	p = Pattern.compile("Episode([0-9]{2})");
+    	m = p.matcher(ret);
+    	if (m.find())
+    		ret = "Hello World " + m.group(1);
     	
     	return ret;
     	}
@@ -168,7 +181,7 @@ public class ReformatterActivity extends Activity
 		endWeeks += 52 * yearInterval;
 		int weekInterval = endWeeks - startWeeks + 1;
 		
-		String title = String.format("Week %d", weekInterval);
+		String title = String.format(Locale.getDefault(), "Week %d", weekInterval);
 		return title;
 		}
     }
