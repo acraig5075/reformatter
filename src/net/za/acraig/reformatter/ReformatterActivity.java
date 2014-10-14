@@ -123,7 +123,13 @@ public class ReformatterActivity extends Activity
 
     private String expandPodcastName(String filename)
     	{
+    	// strip off date prefix
     	String ret = filename;
+    	Pattern p = Pattern.compile("([0-9]{8})_.+");
+    	Matcher m = p.matcher(ret);
+    	if (m.find())
+    		ret = ret.substring(9);
+    	
     	ret = ret.replace("aaa", "All About Android ");
     	ret = ret.replace("twit", "This Week in Tech ");
     	ret = ret.replace("zats", "ZA Tech Show ");
@@ -131,10 +137,12 @@ public class ReformatterActivity extends Activity
     	ret = ret.replace("floss", "FLOSS Weekly ");
     	ret = ret.replace("hanselminutes_", "Hanselminutes ");
     	ret = ret.replace("WT_", "Wood Talk ");
+    	ret = ret.replace("wt_", "Wood Talk ");
     	ret = ret.replace("inbeta-", "InBeta ");
+    	ret = ret.replace("hpr", "Hacker Public Radio ");
     	
-    	Pattern p = Pattern.compile("([0-9]{2})-([A-Z][a-z]+)201([0-9]{1})");
-    	Matcher m = p.matcher(ret);
+    	p = Pattern.compile("([0-9]{2})-([A-Z][a-z]+)201([0-9]{1})");
+    	m = p.matcher(ret);
     	if (m.find())
     		ret = "Pit Pass " + m.group(1);
     	
