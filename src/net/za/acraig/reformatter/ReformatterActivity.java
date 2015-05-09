@@ -87,7 +87,8 @@ public class ReformatterActivity extends Activity
 
     private void stripPodcastEntries()
     	{
-    	String date = "- [0-9]{4}/[0-9]{2}/[0-9]{2} ";
+    	//String date = "- [0-9]{4}/[0-9]{2}/[0-9]{2} ";
+    	String date = "- [a-zA-Z]{3} [0-9]{1,2}, 20[0-9]{2} "; // e.g. May 3, 2015
     	String day = ".+\\S";
     	String time = " [0-9]{2}:[0-9]{2}";
     	String title = "\nPodcasts listened to this week:\n";
@@ -99,7 +100,8 @@ public class ReformatterActivity extends Activity
 
     private void reformatEntries()
     	{
-    	String date = "- [0-9]{4}/[0-9]{2}/[0-9]{2} ";
+    	//String date = "- [0-9]{4}/[0-9]{2}/[0-9]{2} ";
+    	String date = "- [a-zA-Z]{3} [0-9]{1,2}, 20[0-9]{2} "; // e.g. May 3, 2015
     	String time = " [0-9]{2}:[0-9]{2}\n";
     	
     	String day0 = date + "Monday" + time;
